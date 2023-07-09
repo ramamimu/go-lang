@@ -24,9 +24,20 @@ go run <name_file>
 
 - add the parameter `t *testing.T` with no return value.
 
+```go
+go test <path>
+go test -v <path>
+go test -v run <path> <name_function>
+```
+
 ### _Testing.T_
 
 - Parameter for unit testing
+
+- `Fail()` failing the unit test but continue till finish.
+- `FailNow()` failing the unit test and stoppped at the same time.
+- `Error()` call `Fail()` with print an error as a logging.
+- `Fatal()` call `FailNow()` with print an error as a logging.
 
 ### _Testing.M_
 
