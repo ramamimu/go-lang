@@ -1,3 +1,5 @@
+## How to Run
+
 ### Build Production Mode
 
 ```sh
@@ -10,13 +12,13 @@ go build <name_file>
 ./<exe_file>
 ```
 
-### Development Mode Fast Build abd Run
+### Development Mode Fast Build and Run
 
 ```sh
 go run <name_file>
 ```
 
-### **Unit Test**
+## Unit Test
 
 - have to use last name `_test`, for example: `hello_world_test.go`
 
@@ -26,8 +28,8 @@ go run <name_file>
 
 ```go
 go test <path>
-go test -v <path>
-go test -v run <path> <name_function>
+go test -v <path>   // -v use to show the logs
+go test -v run=<name_function> <path>
 ```
 
 ### _Testing.T_
@@ -46,3 +48,31 @@ go test -v run <path> <name_function>
 ### _Testing.B_
 
 - Parameter for brenchmarking
+
+## Goroutines
+
+- goroutine is pretty small, it work as concurrency instead of parallel.
+
+### channel
+
+- channel is an alternative to receive data by goroutine. it is being a tunnel to communicate with goroutine function. goroutine will be blocked untill the channel receive the data (blocking). The concept is similar with `async await` in javascript.
+
+```go
+channel := make(chan int)
+channel <- 19               // to assign the data
+bufferData <- channel       // to give the data
+```
+
+- channel only buffer one data. If want more, need another goroutine to create
+
+- please close channel if it's not used due to memory leak.
+
+- by default, the parameter is parsing the value. It is different with channel. If parsing the channel, it is automatically passing the reference.
+
+- channel is possible to give a sign in and out while parsing as parameter. `chan<-` for in and `<-chan` for out.
+
+- _Buffered Channel_ use to buffer data whenever didn't available or in some case to handle sender faster than receiver.
+
+```go
+channel := make(chan string, 3)   // create channel with 3 buffer long.
+```
