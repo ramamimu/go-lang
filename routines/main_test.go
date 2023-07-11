@@ -2,6 +2,7 @@ package routines
 
 import (
 	"fmt"
+	"sync"
 	"testing"
 	"time"
 )
@@ -69,3 +70,58 @@ func TestBufferChannel(t *testing.T){
 	close(ch)
 }
 
+func TestRaceCondition(t *testing.T) {
+	var x = 0
+	var mutex sync.Mutex
+
+	// this function called as closure
+	for i:=0; i<1000; i++ {
+		go func() {
+			mutex.Lock()
+			for j:=0; j<100; j++ {
+				x += 1
+			}
+			mutex.Unlock()
+		}()
+	}
+
+	fmt.Println("waiting for channel")
+	time.Sleep(1 * time.Second)
+	fmt.Println("the value of x", x)
+}
+
+
+func TestWaitGroup(t *testing.T){
+	// add wait state
+	// var wg sync.WaitGroup
+	wg := sync.WaitGroup{}
+	// the mutex is to lock
+	// to avoid race condition
+	var mutex sync.Mutex
+
+	var x = 0
+
+	// this function called as closure
+	wg.Add(1)
+	for i:=0; i<1000; i++ {
+		go func() {
+			// defer to called variable when the function is done
+			// function Donn() to decrement the counter
+			defer wg.Done()
+			// add the counter of waitgroup
+			wg.Add(1)
+			// lock the task
+			mutex.Lock()
+			for j:=0; j<100; j++ {
+				x += 1
+			}
+			// unlock the task
+			mutex.Unlock()
+			}()
+		}
+	wg.Done()
+	
+	fmt.Println("waiting for channel")
+	wg.Wait()
+	fmt.Println("the value of x", x)
+}

@@ -29,7 +29,7 @@ go run <name_file>
 ```go
 go test <path>
 go test -v <path>   // -v use to show the logs
-go test -v run=<name_function> <path>
+go test -v -run=<name_function> <path> -count=1   // -count to ignore caching
 ```
 
 ### _Testing.T_
