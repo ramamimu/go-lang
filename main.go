@@ -3,15 +3,30 @@ package main
 import (
 	"fmt"
 
-	"github.com/ramamimu/golang-modules/hello"
-	unittest "github.com/ramamimu/golang/unit-test"
+	"github.com/gin-gonic/gin"
 )
+
+type User struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
 
 func main() {
 	fmt.Println("Hello World")
-	hello.JustPrint()
-	called:=hello.CallGetHello("Rama")
-	fmt.Println(called)
-	fmt.Println(hello.CallGetHello("Mimu"))
-	fmt.Println(unittest.HelloUnitTest())
+	router := gin.Default()
+
+	user:= User{
+		ID: 1,
+		Name: "Rama",
+	}
+
+	fmt.Println(user)
+
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "Hello World",
+		})
+	})
+
+	router.Run(":8080")
 }
