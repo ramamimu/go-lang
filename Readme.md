@@ -30,6 +30,11 @@ go run <name_file>
 go test <path>
 go test -v <path>   // -v use to show the logs
 go test -v -run=<name_function> <path> -count=1   // -count to ignore caching
+
+/*
+** Either run all tests with go test -v or specify the source files that your test depends on, e.g.
+*/
+go test double.go double_test.go
 ```
 
 ### _Testing.T_
